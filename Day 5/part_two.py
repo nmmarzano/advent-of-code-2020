@@ -30,20 +30,19 @@ def get_id(position):
     return position[0] * 8 + position[1]
 
 
-def get_highest_id(bpasses):
-    highest = 0
+# naive and inefficient
+def find_empty(bpasses):
+    ids = [get_id(get_position(bpass)) for bpass in bpasses]
+    ids.sort()
 
-    for bpass in bpasses:
-        bpass_id = get_id(get_position(bpass))
-        if bpass_id > highest:
-            highest = bpass_id
-
-    return highest
+    for i in range(len(ids) - 2):
+        if ids[i + 1] - ids[i] != 1:
+            return ids[i] + 1
 
 
 def main():
     with open(input_file) as f:
-        print(get_highest_id(f.read().split('\n')))
+        print(find_empty(f.read().split('\n')))
 
 
 if __name__ == '__main__':
